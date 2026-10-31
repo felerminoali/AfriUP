@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AfriUP — African Research GPU Expert System (Full Server, Redundant Storage, Cooling &amp; Power)</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text: #0f172a;
+      --muted: #475569;
+      --light-muted: #64748b;
+      --accent: #059669;
+      --accent-hover: #047857;
+      --accent-soft: #ecfdf5;
+      --accent-border: #a7f3d0;
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --danger: #dc2626;
+      --danger-soft: #fef2f2;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --radius: 14px;
+      --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 80px;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 18px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      font-size: 0.73rem;
+      font-weight: 700;
+      padding: 3px 11px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    h1 {
+      font-size: 1.52rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.89rem;
+    }
+
+    .nav-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: #ffffff;
+      color: var(--text);
+      border: 1px solid var(--border-strong);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.86rem;
+      transition: all 0.16s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: var(--surface);
+      border-color: #94a3b8;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .btn-outline-accent {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      font-weight: 700;
+    }
+
+    .btn-outline-accent:hover {
+      background: #d1fae5;
+    }
+
+    .btn-hero {
+      font-size: 0.96rem;
+      padding: 13px 22px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.22);
+    }
+
+    /* Views */
+    .view-page {
+      display: none;
+      margin-top: 26px;
+      animation: fadeIn 0.22s ease;
+    }
+
+    .view-page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .tag-green { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); }
+    .tag-amber { background: var(--amber-soft); color: var(--amber); border: 1px solid #fde68a; }
+    .tag-red { background: var(--danger-soft); color: var(--danger); border: 1px solid #fecaca; }
+    .tag-blue { background: var(--blue-soft); color: var(--blue); border: 1px solid #bfdbfe; }
+    .tag-purple { background: var(--purple-soft); color: var(--purple); border: 1px solid #ddd6fe; }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 100%);
+      border: 2px solid var(--accent-border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 760px) {
+      .stat-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    .stat-card .lbl {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: var(--light-muted);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .stat-card .val {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-top: 4px;
+      color: var(--text);
+    }
+
+    .stat-card .sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Clean Summary Pillars */
+    .summary-pillars {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 940px) {
+      .summary-pillars {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 580px) {
+      .summary-pillars {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .pillar-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 0.85rem;
+    }
+
+    .pillar-box strong {
+      display: block;
+      color: var(--accent);
+      font-size: 0.91rem;
+      margin-bottom: 4px;
+    }
+
+    /* Collapsible / Progressive Disclosure Panels */
+    .drawer-toggle-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .collapsible-panel {
+      display: none;
+      margin-top: 18px;
+      background: #ffffff;
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 22px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .collapsible-panel.open {
+      display: block;
+    }
+
+    .bom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .bom-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 0.84rem;
+    }
+
+    .bom-card h4 {
+      font-size: 0.94rem;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bom-card ul {
+      margin-left: 16px;
+      color: var(--muted);
+      display: grid;
+      gap: 4px;
+    }
+
+    .why-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .why-list li {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 12px 15px;
+      border-radius: 10px;
+      font-size: 0.87rem;
+    }
+
+    .why-list li strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .cost-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+    }
+
+    .cost-table td {
+      padding: 8px 4px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cost-table td:last-child {
+      text-align: right;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cost-table tr.total-row td {
+      border-top: 2px solid var(--accent);
+      border-bottom: none;
+      color: var(--accent);
+      font-size: 1.02rem;
+      padding-top: 11px;
+    }
+
+    /* Expert System Node Page Styles */
+    .expert-shell {
+      max-width: 840px;
+      margin: 0 auto;
+    }
+
+    .breadcrumb-trail {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--light-muted);
+    }
+
+    .crumb {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 4px 11px;
+      border-radius: 99px;
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .crumb:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .question-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .q-step-badge {
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+
+    .q-title {
+      font-size: 1.38rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .q-context {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 22px;
+    }
+
+    .choice-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .choice-btn {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-align: left;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.16s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .choice-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      transform: translateX(3px);
+    }
+
+    .choice-main {
+      flex: 1;
+    }
+
+    .choice-heading {
+      font-size: 0.98rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .choice-desc {
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .choice-arrow {
+      font-size: 1.2rem;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .expert-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Provider Directory Grid */
+    .provider-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .provider-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .provider-card h4 {
+      font-size: 0.96rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .provider-meta {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .provider-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .provider-links a {
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: #ffffff;
+      border: 1px solid var(--accent-border);
+      padding: 5px 10px;
+      border-radius: 6px;
+    }
+
+    .provider-links a:hover {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    /* Email Templates Grid */
+    .email-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .email-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .email-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .email-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .email-textarea {
+      width: 100%;
+      min-height: 310px;
+      background: #ffffff;
+      color: var(--text);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.79rem;
+      line-height: 1.55;
+      resize: vertical;
+    }
+
+    /* Matrix table */
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+
+    table.matrix {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    table.matrix th, table.matrix td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    table.matrix th {
+      background: var(--surface);
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    table.matrix tr.best-row {
+      background: var(--accent-soft);
+    }
+
+    .reasoning-trace {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin: 16px 0 0;
+      font-size: 0.87rem;
+    }
+
+    .reasoning-trace ul {
+      margin-left: 18px;
+      margin-top: 6px;
+      display: grid;
+      gap: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="header-top">
+        <div>
+          <div class="brand-badge">🌍 AfriUP Open Compute — UK ➔ Nigeria</div>
+          <h1>African Research GPU Infrastructure Estimator</h1>
+          <p class="subtitle">
+            Complete Server + Redundant Storage + Cooling + Power calculator for free African academic GPU access.
+          </p>
+        </div>
+        <div class="nav-pills">
+          <button class="btn" onclick="showPage('page-30k')">🏆 $30k Recommendation</button>
+          <button class="btn btn-primary" onclick="startExpertSystem()">🧭 Try Other Estimations (Expert System)</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ===================================================================== -->
+    <!-- PAGE 1: CONCISE $30,000 RECOMMENDATION + ON-DEMAND DETAIL BUTTONS     -->
+    <!-- ===================================================================== -->
+    <section class="view-page active" id="page-30k">
+
+      <div class="hero-banner">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+          <div style="max-width: 730px;">
+            <span class="tag tag-green">RECOMMENDED $30,000 USD COMPLETE TURNKEY BLUEPRINT</span>
+            <h2 style="font-size: 1.55rem; margin-top: 8px; color: var(--text);">
+              2x NVIDIA A100 (160GB) Server + ZFS RAID Redundant Storage + Precision Cooling + 8kVA Solar/LiFePO4 Power
+            </h2>
+            <p style="color: var(--muted); font-size: 0.94rem; margin-top: 6px;">
+              Procuring the <strong>entire server in the UK</strong> (GPUs, Dual EPYC host, <strong>RAID-1 OS + RAID-10 NVMe scratch + 32TB RAID-Z2 dataset storage</strong>, and 1+1 redundant PSUs), shipping VAT-free to Nigeria, and installing <strong>dedicated precision cooling + hybrid solar/battery power</strong> lands at <strong>$27,440</strong> — leaving <strong>$2,560</strong> in reserve.
+            </p>
+          </div>
+          <button class="btn btn-primary btn-hero" onclick="startExpertSystem()">
+            🧭 Try Other Estimations ➔
+          </button>
+        </div>
+
+        <!-- Key Numbers at a Glance -->
+        <div class="stat-strip">
+          <div class="stat-card">
+            <div class="lbl">Full Turnkey Landed (NG)</div>
+            <div class="val" style="color:var(--accent);">$27,440</div>
+            <div class="sub">Includes RAID Storage, Cooling &amp; Solar</div>
+          </div>
+          <div class="stat-card">
+            <div class="lbl">Concurrent Researchers</div>
+            <div class="val" style="color:var(--blue);">14 Free Users</div>
+            <div class="sub">Via A100 MIG (7 slices / GPU)</div>
+          </div>
+          <div class="stat-card">
+            <div class="lbl">Local Cost / GPU-Hr</div>
+            <div class="val" style="color:var(--accent);">$0.89 / hr</div>
+            <div class="sub">vs. $1.89/hr Cloud Rental</div>
+          </div>
+          <div class="stat-card">
+            <div class="lbl">3-Yr Cloud Savings</div>
+            <div class="val" style="color:var(--amber);">$38,785 Saved</div>
+            <div class="sub">35,040 free GPU-hours unlocked</div>
+          </div>
+        </div>
+
+        <!-- 4 Short Summary Pillars Covering Entire Server, Storage, Cooling & Power -->
+        <div class="summary-pillars">
+          <div class="pillar-box">
+            <strong>1. Compute &amp; Host Server ($16,700)</strong>
+            2x A100 80GB PCIe (160GB HBM2e, 14 MIG slices) inside a 4U Dual EPYC 64-Core Server with 256GB ECC RAM &amp; 1+1 Redundant 2400W Titanium PSUs.
+          </div>
+          <div class="pillar-box">
+            <strong>2. 3-Tier Redundant Storage ($1,550)</strong>
+            Zero data loss for researchers: <strong>2x 960GB RAID-1</strong> (OS), <strong>4x 3.84TB U.2 NVMe RAID-10</strong> (fast scratch), + <strong>4x 8TB SAS HDD ZFS RAID-Z2</strong> (datasets).
+          </div>
+          <div class="pillar-box">
+            <strong>3. Active Server Cooling ($1,150)</strong>
+            High-static-pressure hot-swap server fans + a dedicated <strong>1.5HP Dual-Inverter Split AC</strong> &amp; 18U Acoustic Server Rack for 35°C+ Nigerian ambient heat.
+          </div>
+          <div class="pillar-box">
+            <strong>4. Redundant Power &amp; Solar ($5,450)</strong>
+            <strong>3kVA Online Double-Conversion Sinewave UPS</strong> (0ms transfer) + <strong>8kVA Hybrid Solar Inverter &amp; 15kWh LiFePO4 Battery</strong> for 24/7 off-grid autonomy.
+          </div>
+        </div>
+
+        <!-- Progressive Disclosure Buttons (Clean Page — Click to Reveal Details) -->
+        <div class="drawer-toggle-bar">
+          <button class="btn btn-outline-accent" onclick="toggleDrawer('drawer-30k-bom', this)">
+            🛠️ Show Full Server, Redundant Storage, Cooling &amp; Power Architecture
+          </button>
+          <button class="btn" onclick="toggleDrawer('drawer-30k-breakdown', this)">
+            📊 Show Itemized $30k Cost Table &amp; GPU Comparisons
+          </button>
+          <button class="btn" onclick="toggleDrawer('drawer-providers', this)">
+            📦 Show UK Providers &amp; Nigeria Shipping Links
+          </button>
+          <button class="btn" onclick="toggleDrawer('drawer-emails', this)">
+            ✉️ Show Draft Inquiry &amp; Sales Quotation Emails
+          </button>
+        </div>
+
+        <!-- HIDDEN DRAWER A: Full Server, Redundant Storage, Cooling & Power Specs -->
+        <div class="collapsible-panel" id="drawer-30k-bom">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <h3 style="font-size:1.1rem;">Complete Turnkey Infrastructure Specification (Server + Storage + Cooling + Power)</h3>
+            <button class="btn" style="padding:4px 10px; font-size:0.78rem;" onclick="document.getElementById('drawer-30k-bom').classList.remove('open')">✕ Close</button>
+          </div>
+          <div class="bom-grid">
+            <div class="bom-card">
+              <h4><span>🖥️ 1. Host Server &amp; GPUs</span> <span class="tag tag-green">$16,700</span></h4>
+              <ul>
+                <li><strong>GPUs:</strong> 2x NVIDIA A100 80GB PCIe (160GB HBM2e, 2 TB/s bandwidth, up to 14 hardware MIG instances).</li>
+                <li><strong>Chassis &amp; CPU:</strong> 4U Supermicro / Dell Enterprise Server, Dual AMD EPYC 7002/7003 (64 Cores / 128 Threads total).</li>
+                <li><strong>System Memory:</strong> 256GB DDR4-3200 ECC Registered RAM (16x 16GB across 8 memory channels).</li>
+                <li><strong>Networking &amp; BMC:</strong> Dual 10GbE/25GbE SFP28 NIC + Dedicated IPMI/iDRAC out-of-band remote management.</li>
+              </ul>
+            </div>
+
+            <div class="bom-card">
+              <h4><span>💾 2. Redundant Storage (RAID)</span> <span class="tag tag-blue">$1,550</span></h4>
+              <ul>
+                <li><strong>OS Boot Mirror (RAID-1):</strong> 2x 960GB Enterprise M.2/SATA SSDs with Power-Loss Protection (PLP) — server stays up if a boot drive fails.</li>
+                <li><strong>Active Training Scratch (RAID-10):</strong> 4x 3.84TB Enterprise U.2 Gen4 NVMe SSDs (~7.6TB usable at 14 GB/s read speed; tolerates 1–2 drive failures).</li>
+                <li><strong>Shared African Dataset Vault (ZFS RAID-Z2):</strong> 4x 8TB Enterprise SAS/SATA HDDs (~16TB usable; survives any 2 simultaneous disk failures) + automated daily snapshots.</li>
+              </ul>
+            </div>
+
+            <div class="bom-card">
+              <h4><span>❄️ 3. Thermal &amp; Room Cooling</span> <span class="tag tag-purple">$1,150</span></h4>
+              <ul>
+                <li><strong>Chassis Airflow:</strong> 6x Redundant Hot-Swap High-Static-Pressure PWM Fans (N+1 fan redundancy required for passive PCIe A100s).</li>
+                <li><strong>Room Precision Cooling:</strong> 1.5HP (12,000 BTU) Low-Wattage Dual-Inverter Split Air Conditioner running on solar/inverter circuit (~850W continuous draw) to maintain 22°C intake air.</li>
+                <li><strong>Enclosure &amp; Dust Filtration:</strong> 18U/22U Perforated Server Rack with washable dust filters (critical during Nigerian Harmattan dust season).</li>
+              </ul>
+            </div>
+
+            <div class="bom-card">
+              <h4><span>⚡ 4. Redundant Power &amp; Solar</span> <span class="tag tag-amber">$5,450</span></h4>
+              <ul>
+                <li><strong>Internal Server PSUs (1+1 Redundant):</strong> Dual Hot-Swap 2400W 80+ Titanium PSUs plugged into separate power feeds.</li>
+                <li><strong>0ms Power Conditioning:</strong> 3kVA Online Double-Conversion Pure Sine Wave Rackmount UPS + Automatic Voltage Regulator (AVR) to absorb grid/generator spikes.</li>
+                <li><strong>Solar &amp; Battery Autonomy:</strong> 8kVA Hybrid Inverter (Victron/Deye) + 15kWh LiFePO4 Lithium Battery Bank + 6x 550W Solar Panels + NUT auto-shutdown cable.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- HIDDEN DRAWER B: Full Itemized $30k Cost Table & GPU Comparisons -->
+        <div class="collapsible-panel" id="drawer-30k-breakdown">
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:24px;">
+            <div>
+              <h3 style="font-size:1.05rem; margin-bottom:8px;">Itemized $30,000 UK ➔ Nigeria Turnkey Budget</h3>
+              <table class="cost-table">
+                <tbody>
+                  <tr>
+                    <td>2x NVIDIA A100 80GB PCIe (UK Certified Refurb)</td>
+                    <td>$13,600</td>
+                  </tr>
+                  <tr>
+                    <td>4U Dual EPYC 64C Server, 256GB ECC, 1+1 2400W PSUs</td>
+                    <td>$3,100</td>
+                  </tr>
+                  <tr>
+                    <td>Redundant Storage (RAID-1 OS + 4x NVMe RAID-10 + 4x 8TB ZFS)</td>
+                    <td>$1,550</td>
+                  </tr>
+                  <tr>
+                    <td>UK Export VAT (Direct Export to Lagos)</td>
+                    <td>$0 (0%)</td>
+                  </tr>
+                  <tr>
+                    <td>Insured Air Cargo (London LHR ➔ Lagos LOS, 72kg crate)</td>
+                    <td>$1,435</td>
+                  </tr>
+                  <tr>
+                    <td>Nigeria Customs + University Duty Waiver + Local Delivery</td>
+                    <td>$1,155</td>
+                  </tr>
+                  <tr>
+                    <td>Cooling &amp; Enclosure (1.5HP Inverter AC + Dust-Filtered Rack)</td>
+                    <td>$1,150</td>
+                  </tr>
+                  <tr>
+                    <td>Power Redundancy (3kVA Online UPS + 8kVA Solar + 15kWh LiFePO4)</td>
+                    <td>$5,450</td>
+                  </tr>
+                  <tr class="total-row">
+                    <td>Total Landed Turnkey System in Nigeria</td>
+                    <td>$27,440</td>
+                  </tr>
+                  <tr>
+                    <td style="color:var(--muted);">Remaining OpEx Reserve (Starlink/NgREN &amp; Spare Drives)</td>
+                    <td style="color:var(--blue);">+$2,560</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <h3 style="font-size:1.05rem; margin-bottom:8px;">Why This Turnkey Build Beats Alternatives at $30,000</h3>
+              <ul class="why-list">
+                <li>
+                  <strong>Why Redundant Storage &amp; Cooling Cannot Be Skipped:</strong>
+                  When 14–30 African researchers share one server, a single SSD failure without RAID-10/ZFS wipes months of thesis checkpoints. Likewise, passive datacenter GPUs (A100/H100) thermal-throttle within 90 seconds if room AC fails during a power cut—so the 1.5HP Inverter AC must run on the solar/LiFePO4 bank alongside the server.
+                </li>
+                <li>
+                  <strong>2x DGX Spark (256GB) + NAS RAID + Solar: $14,950 Landed</strong>
+                  Draws only 480W + minimal cooling. Best for $12k–$18k budgets, though unified LPDDR5x has lower bandwidth than A100 HBM2e.
+                </li>
+                <li>
+                  <strong>4x RTX A6000 (192GB) + RAID + Cooling + Solar: $23,800 Landed</strong>
+                  Great 4-GPU setup for Computer Vision/AgriTech, but lacks A100's 14-slice hardware MIG isolation.
+                </li>
+                <li>
+                  <strong>1x H800 / H100 (80GB) + RAID + Cooling + Solar: $28,400 – $32,500</strong>
+                  Fastest FP8 training, but gives only 1 GPU (80GB total) and pushes past $30k once redundant storage, cooling, and solar are included.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- PAGE 2+: DYNAMIC EXPERT SYSTEM (STEP-BY-STEP BRANCHING PAGES)         -->
+    <!-- ===================================================================== -->
+    <section class="view-page" id="page-expert-node">
+      <div class="expert-shell">
+        <div class="breadcrumb-trail" id="expertBreadcrumbs"></div>
+
+        <div class="question-box" id="questionBox">
+          <div class="q-step-badge" id="qStepBadge">Expert System — Question 1</div>
+          <h2 class="q-title" id="qTitle">Loading...</h2>
+          <p class="q-context" id="qContext"></p>
+
+          <div class="choice-list" id="qChoices"></div>
+
+          <div class="expert-footer">
+            <button class="btn" id="expertBackBtn" onclick="expertGoBack()">⬅ Previous Question</button>
+            <button class="btn" onclick="showPage('page-30k')">🏠 Back to $30k Recommendation</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- FINAL PAGE: TAILORED EXPERT VERDICT (CLEAN + EXPANDABLE DETAILS)      -->
+    <!-- ===================================================================== -->
+    <section class="view-page" id="page-expert-result">
+      <div class="breadcrumb-trail" id="resultBreadcrumbs"></div>
+
+      <div class="hero-banner" id="expertResultBanner"></div>
+
+      <!-- On-Demand Action Buttons on Result Page -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h3 style="font-size:1.12rem;">Explore Full Subsystem Specs or Fine-Tune Parameters</h3>
+            <p style="font-size:0.86rem; color:var(--muted);">
+              Click any button below to inspect the server/storage/cooling/power BOM, compare all GPUs, or copy procurement emails.
+            </p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn" onclick="expertGoBack()">⬅ Change Last Answer</button>
+            <button class="btn btn-primary" onclick="startExpertSystem()">🔄 Restart Expert Interview</button>
+          </div>
+        </div>
+
+        <div class="drawer-toggle-bar">
+          <button class="btn btn-outline-accent" onclick="toggleDrawer('drawer-custom-matrix', this)">
+            🎛️ Show Fine-Tuning Controls &amp; Full GPU Comparison Matrix
+          </button>
+          <button class="btn" onclick="toggleDrawer('drawer-30k-bom', this)">
+            🛠️ Show Server, Redundant Storage, Cooling &amp; Power Architecture
+          </button>
+          <button class="btn" onclick="toggleDrawer('drawer-providers', this)">
+            📦 Show UK Providers &amp; Nigeria Shipping Links
+          </button>
+          <button class="btn" onclick="toggleDrawer('drawer-emails', this)">
+            ✉️ Show Draft Inquiry &amp; Sales Quotation Emails
+          </button>
+        </div>
+
+        <!-- Collapsible Fine-Tune & Comparison Table -->
+        <div class="collapsible-panel" id="drawer-custom-matrix">
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap:14px; background:var(--surface); padding:16px; border-radius:10px; border:1px solid var(--border); margin-bottom:18px;">
+            <div>
+              <label style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:4px;">Capital Budget: <strong id="lblCustomBudget" style="color:var(--accent);">$30,000</strong></label>
+              <input type="range" id="customBudget" min="10000" max="65000" step="1000" value="30000" style="width:100%; accent-color:var(--accent);" oninput="updateCustomResult()" />
+            </div>
+            <div>
+              <label style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:4px;">GPU Platform</label>
+              <select id="customGpu" onchange="updateCustomResult()" style="width:100%; background:#fff; color:var(--text); border:1px solid var(--border-strong); padding:7px; border-radius:6px; font-size:0.83rem;">
+                <option value="dgx_spark">NVIDIA DGX Spark (128GB)</option>
+                <option value="a6000">NVIDIA RTX A6000 (48GB)</option>
+                <option value="a100" selected>NVIDIA A100 (80GB HBM2e)</option>
+                <option value="h800">NVIDIA H800 (80GB HBM3)</option>
+                <option value="h100">NVIDIA H100 (80GB HBM3)</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:4px;">GPU / Unit Count</label>
+              <select id="customCount" onchange="updateCustomResult()" style="width:100%; background:#fff; color:var(--text); border:1px solid var(--border-strong); padding:7px; border-radius:6px; font-size:0.83rem;">
+                <option value="1">1x Unit / GPU</option>
+                <option value="2" selected>2x Units / GPUs</option>
+                <option value="3">3x Units / GPUs</option>
+                <option value="4">4x Units / GPUs</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:4px;">Redundant Storage Tier</label>
+              <select id="customStorage" onchange="updateCustomResult()" style="width:100%; background:#fff; color:var(--text); border:1px solid var(--border-strong); padding:7px; border-radius:6px; font-size:0.83rem;">
+                <option value="raid1_basic">RAID-1 NVMe Mirror (4TB Usable) — $650</option>
+                <option value="zfs_full" selected>RAID-1 OS + 8TB NVMe RAID-10 + 16TB ZFS RAID-Z2 — $1,550</option>
+                <option value="ceph_ha">High-Capacity 30TB NVMe RAID-10 + 48TB ZFS — $2,850</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.78rem; color:var(--muted); display:block; margin-bottom:4px;">UK Market Condition</label>
+              <select id="customCond" onchange="updateCustomResult()" style="width:100%; background:#fff; color:var(--text); border:1px solid var(--border-strong); padding:7px; border-radius:6px; font-size:0.83rem;">
+                <option value="refurb" selected>UK Certified Refurbished</option>
+                <option value="new">UK Brand New Retail</option>
+              </select>
+            </div>
+          </div>
+
+          <h4 style="font-size:0.98rem; margin-bottom:6px;">All Hardware Options Compared (Including Server, Redundant Storage, Cooling, Power &amp; Shipping)</h4>
+          <div class="table-wrap">
+            <table class="matrix" id="expertMatrixTable">
+              <thead>
+                <tr>
+                  <th>Configuration</th>
+                  <th>VRAM</th>
+                  <th>UK Server + GPUs</th>
+                  <th>Redundant Storage</th>
+                  <th>Air Freight + Customs</th>
+                  <th>Cooling + Solar/UPS</th>
+                  <th>Total Landed (Day 1)</th>
+                  <th>3-Yr Cloud Equiv</th>
+                  <th>Local $/GPU-hr</th>
+                  <th>Budget Fit</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SHARED COLLAPSIBLE DRAWERS: PROVIDERS & EMAIL TEMPLATES               -->
+    <!-- ===================================================================== -->
+
+    <!-- COLLAPSIBLE DRAWER: UK PROVIDERS & NIGERIA SHIPPING LINKS -->
+    <section class="collapsible-panel" id="drawer-providers">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <span class="tag tag-blue">VERIFIED PROCUREMENT &amp; LOGISTICS DIRECTORY</span>
+          <h3 style="font-size: 1.2rem; margin-top: 4px;">
+            UK GPU Server Providers, UK-to-Nigeria Freight Forwarders &amp; Local Power/Cooling Partners
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--muted);">
+            Direct links to UK suppliers that support custom RAID storage builds + international export (0% UK VAT) and Nigeria logistics/colocation partners.
+          </p>
+        </div>
+        <button class="btn" onclick="document.getElementById('drawer-providers').classList.remove('open')">✕ Hide Directory</button>
+      </div>
+
+      <div class="provider-grid">
+        <div class="provider-card">
+          <div>
+            <h4>
+              <span>🇬🇧 Bargain Hardware UK</span>
+              <span class="tag tag-green">Refurb A100 / A6000 + RAID</span>
+            </h4>
+            <p class="provider-meta">
+              UK's leading custom-configured refurbished enterprise server builder (Dell PowerEdge, Supermicro 4U GPU nodes, NVIDIA A100, RTX A6000, custom NVMe RAID-10 &amp; SAS ZFS arrays) with DHL/air export.
+            </p>
+          </div>
+          <div class="provider-links">
+            <a href="https://www.bargainhardware.co.uk/custom-gpu-servers" target="_blank" rel="noopener">🔗 Custom GPU Servers</a>
+            <a href="https://www.bargainhardware.co.uk/delivery-information" target="_blank" rel="noopener">✈️ International Shipping</a>
+          </div>
+        </div>
+
+        <div class="provider-card">
+          <div>
+            <h4>
+              <span>🇬🇧 Scan Computers UK (Scan Pro AI)</span>
+              <span class="tag tag-blue">New DGX Spark / H100</span>
+            </h4>
+            <p class="provider-meta">
+              Official UK NVIDIA Elite Partner for brand-new NVIDIA DGX Spark Mini-Stations, RTX A6000, H100, and custom 3XS AI servers with enterprise storage and B2B export desk.
+            </p>
+          </div>
+          <div class="provider-links">
+            <a href="https://www.scan.co.uk/business/ai-and-deep-learning" target="_blank" rel="noopener">🔗 Scan AI &amp; Deep Learning</a>
+            <a href="https://www.scan.co.uk/shop/computer-hardware/gpu-accelerated-computing/all" target="_blank" rel="noopener">🖥️ NVIDIA Enterprise GPUs</a>
+          </div>
+        </div>
+
+        <div class="provider-card">
+          <div>
+            <h4>
+              <span>🇬🇧 ServerSource UK &amp; ETB Tech</span>
+              <span class="tag tag-green">UK Server &amp; Storage Export</span>
+            </h4>
+            <p class="provider-meta">
+              Specialists in enterprise GPU servers (Supermicro/Dell/HPE), redundant Titanium PSUs, enterprise U.2 NVMe drives, and zero-rated UK VAT air-freight export.
+            </p>
+          </div>
+          <div class="provider-links">
+            <a href="https://www.serversource.co.uk/" target="_blank" rel="noopener">🔗 ServerSource UK</a>
+            <a href="https://www.etb-tech.com/delivery-information" target="_blank" rel="noopener">✈️ ETB Global Delivery</a>
+          </div>
+        </div>
+
+        <div class="provider-card">
+          <div>
+            <h4>
+              <span>✈️ Cargo.ng &amp; Tobems Logistics</span>
+              <span class="tag tag-amber">UK ➔ Lagos Air Cargo</span>
+            </h4>
+            <p class="provider-meta">
+              Dedicated UK-to-Nigeria air freight and customs clearing specialists. Provide a London/Heathrow warehouse address, UK export EAD proof (for 0% VAT), and Lagos/Abuja delivery.
+            </p>
+          </div>
+          <div class="provider-links">
+            <a href="https://www.cargo.ng/" target="_blank" rel="noopener">🔗 Cargo.ng (UK to Nigeria)</a>
+            <a href="https://tobems.com/" target="_blank" rel="noopener">📦 Tobems UK-Nigeria Freight</a>
+          </div>
+        </div>
+
+        <div class="provider-card">
+          <div>
+            <h4>
+              <span>🇳🇬 Rack Centre &amp; Equinix Lagos</span>
+              <span class="tag tag-purple">Nigeria Tier-III Colocation</span>
+            </h4>
+            <p class="provider-meta">
+              Host your imported UK server inside Rack Centre (Ikeja, Lagos) or Equinix/MainOne (Victoria Island) for 99.99% power uptime, precision cooling, and direct university fiber peering.
+            </p>
+          </div>
+          <div class="provider-links">
+            <a href="https://www.rack-centre.com/" target="_blank" rel="noopener">🔗 Rack Centre Lagos</a>
+            <a href="https://www.mainone.net/data-center/" target="_blank" rel="noopener">🏢 MainOne / Equinix Lagos</a>
+          </div>
+        </div>
+
+        <div class="provider-card">
+          <div>
+            <h4>
+              <span>☁️ RunPod &amp; Lambda Cloud</span>
+              <span class="tag tag-amber">Cloud GPU Rental</span>
+            </h4>
+            <p class="provider-meta">
+              Low-cost cloud GPU providers offering per-hour A100, A6000, and H100 instances for burst capacity or zero-hardware teams.
+            </p>
+          </div>
+          <div class="provider-links">
+            <a href="https://www.runpod.io/gpu-instance/pricing" target="_blank" rel="noopener">🔗 RunPod GPU Pricing</a>
+            <a href="https://lambdalabs.com/service/gpu-cloud" target="_blank" rel="noopener">☁️ Lambda GPU Cloud</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLLAPSIBLE DRAWER: DRAFT INQUIRY EMAIL & POSSIBLE SALES EMAIL -->
+    <section class="collapsible-panel" id="drawer-emails">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <span class="tag tag-green">READY-TO-SEND PROCUREMENT TEMPLATES</span>
+          <h3 style="font-size: 1.2rem; margin-top: 4px;">
+            Draft Inquiry Email (RFQ to Send) &amp; Sample Vendor Sales Reply
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--muted);">
+            Includes full server, redundant RAID storage, high-static-pressure cooling fans, 1+1 redundant PSUs, and 0% UK Export VAT shipping for: <strong id="emailActiveConfigLabel" style="color:var(--accent);">2x NVIDIA A100 80GB PCIe Server</strong>.
+          </p>
+        </div>
+        <button class="btn" onclick="document.getElementById('drawer-emails').classList.remove('open')">✕ Hide Emails</button>
+      </div>
+
+      <div class="email-grid">
+        <div class="email-box">
+          <div class="email-header">
+            <div>
+              <span class="tag tag-blue">1. DRAFT INQUIRY EMAIL TO SEND TO UK PROVIDER</span>
+              <div style="font-size:0.81rem; font-weight:700; margin-top:3px;">Specifies Full Server + Redundant Storage + Cooling + 1+1 PSUs</div>
+            </div>
+            <button class="btn btn-primary" style="padding:6px 12px; font-size:0.8rem;" onclick="copyEmail('draftInquiryEmail', this)">
+              📋 Copy Inquiry Email
+            </button>
+          </div>
+          <textarea class="email-textarea" id="draftInquiryEmail" spellcheck="false"></textarea>
+        </div>
+
+        <div class="email-box">
+          <div class="email-header">
+            <div>
+              <span class="tag tag-green">2. POSSIBLE SALES EMAIL / PROFORMA REPLY FROM VENDOR</span>
+              <div style="font-size:0.81rem; font-weight:700; margin-top:3px;">Expected Proforma Invoice with Storage/Cooling/PSU Breakdown</div>
+            </div>
+            <button class="btn" style="padding:6px 12px; font-size:0.8rem;" onclick="copyEmail('sampleSalesReplyEmail', this)">
+              📋 Copy Sample Reply
+            </button>
+          </div>
+          <textarea class="email-textarea" id="sampleSalesReplyEmail" spellcheck="false"></textarea>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // =========================================================================
+    // 1. HARDWARE, REDUNDANT STORAGE, COOLING & POWER CATALOG
+    // =========================================================================
+    const GPUS = {
+      dgx_spark: {
+        id: 'dgx_spark',
+        name: 'NVIDIA DGX Spark Mini-Station (128GB)',
+        vram: 128,
+        watts: 240,
+        weightKg: 3.5,
+        ukRefurb: 3850,
+        ukNew: 4200,
+        cloudHr: 1.15,
+        isAppliance: true,
+        chassisDesc: 'Integrated Grace Blackwell GB10 Mini-Station (128GB Unified LPDDR5x, 4TB Internal NVMe, ConnectX-7 200GbE NIC)'
+      },
+      a6000: {
+        id: 'a6000',
+        name: 'NVIDIA RTX A6000 (48GB GDDR6)',
+        vram: 48,
+        watts: 300,
+        weightKg: 1.5,
+        ukRefurb: 3100,
+        ukNew: 4650,
+        cloudHr: 0.85,
+        isAppliance: false,
+        chassisDesc: '4U Enterprise GPU Server (Dual AMD EPYC 64-Core, 256GB DDR4 ECC RAM, 6x Hot-Swap High-Static-Pressure Fans, 1+1 Redundant 2400W Platinum PSUs)'
+      },
+      a100: {
+        id: 'a100',
+        name: 'NVIDIA A100 PCIe (80GB HBM2e)',
+        vram: 80,
+        watts: 300,
+        weightKg: 1.8,
+        ukRefurb: 6800,
+        ukNew: 10800,
+        cloudHr: 1.89,
+        isAppliance: false,
+        chassisDesc: '4U Enterprise GPU Server (Dual AMD EPYC 64-Core, 256GB DDR4 ECC RAM, 6x Hot-Swap High-Static-Pressure Fans, 1+1 Redundant 2400W Titanium PSUs)'
+      },
+      h800: {
+        id: 'h800',
+        name: 'NVIDIA H800 (80GB HBM3)',
+        vram: 80,
+        watts: 350,
+        weightKg: 2.0,
+        ukRefurb: 15800,
+        ukNew: 21500,
+        cloudHr: 2.65,
+        isAppliance: false,
+        chassisDesc: '4U High-Airflow Enterprise GPU Server (Dual AMD EPYC Genoa, 512GB DDR5 ECC RAM, 8x Heavy-Duty PWM Cooling Fans, 2+2 Redundant 3200W Titanium PSUs)'
+      },
+      h100: {
+        id: 'h100',
+        name: 'NVIDIA H100 PCIe (80GB HBM3)',
+        vram: 80,
+        watts: 350,
+        weightKg: 2.0,
+        ukRefurb: 19500,
+        ukNew: 26500,
+        cloudHr: 2.99,
+        isAppliance: false,
+        chassisDesc: '4U High-Airflow Enterprise GPU Server (Dual AMD EPYC Genoa, 512GB DDR5 ECC RAM, 8x Heavy-Duty PWM Cooling Fans, 2+2 Redundant 3200W Titanium PSUs)'
+      }
+    };
+
+    const STORAGE_TIERS = {
+      raid1_basic: {
+        id: 'raid1_basic',
+        name: 'RAID-1 NVMe Mirror (2x 3.84TB U.2 NVMe + 2x 480GB OS RAID-1)',
+        cost: 650,
+        weightKg: 2,
+        watts: 25
+      },
+      zfs_full: {
+        id: 'zfs_full',
+        name: '3-Tier Redundant Storage (2x 960GB OS RAID-1 + 4x 3.84TB NVMe RAID-10 Scratch + 4x 8TB SAS ZFS RAID-Z2 Dataset Vault)',
+        cost: 1550,
+        weightKg: 6,
+        watts: 55
+      },
+      ceph_ha: {
+        id: 'ceph_ha',
+        name: 'High-Capacity Redundant Array (2x 960GB OS RAID-1 + 8x 3.84TB NVMe RAID-10 + 6x 12TB SAS ZFS RAID-Z2)',
+        cost: 2850,
+        weightKg: 10,
+        watts: 85
+      }
+    };
+
+    // =========================================================================
+    // 2. BRANCHING EXPERT SYSTEM DECISION GRAPH (6 QUESTIONS INCLUDING STORAGE)
+    // =========================================================================
+    const EXPERT_NODES = {
+      q_budget: {
+        stepLabel: 'Step 1 of 6 — Capital Grant Envelope',
+        title: 'What is your total budget (USD) for the complete server, redundant storage, cooling, power & shipping?',
+        context: 'We calculate the entire turnkey system—not just GPUs—so your hardware, RAID disks, air freight, cooling, and solar/UPS all fit within your grant.',
+        choices: [
+          {
+            label: '$10,000 – $15,000 USD (Seed / Departmental Grant)',
+            tag: 'Seed Path',
+            tagClass: 'tag-amber',
+            desc: 'Prioritizes low-wattage appliances (DGX Spark) or dual-GPU workstations with mirrored RAID-1 storage and compact solar.',
+            set: { budget: 14000, budgetTier: 'seed' },
+            next: 'q_power_seed'
+          },
+          {
+            label: '$16,000 – $24,000 USD (Mid-Size Research Lab Grant)',
+            tag: 'Mid Path',
+            tagClass: 'tag-blue',
+            desc: 'Supports 2x–3x DGX Spark, 2x–3x RTX A6000, or 1x A100 80GB with full RAID-10/ZFS storage and solar/cooling.',
+            set: { budget: 21000, budgetTier: 'mid' },
+            next: 'q_power_general'
+          },
+          {
+            label: '$25,000 – $30,000 USD (Full Target Grant)',
+            tag: 'Sweet Spot',
+            tagClass: 'tag-green',
+            desc: 'Unlocks 2x A100 80GB (160GB HBM2e) or 4x RTX A6000 (192GB) with 3-tier ZFS redundant storage, inverter AC cooling & 8kVA solar.',
+            set: { budget: 30000, budgetTier: 'target30k' },
+            next: 'q_power_general'
+          },
+          {
+            label: 'Over $30,000 USD ($35,000 – $65,000 Consortium)',
+            tag: 'H100 / Multi-A100',
+            tagClass: 'tag-purple',
+            desc: 'Evaluates NVIDIA H100 / H800 Hopper servers or 4x A100 80GB clusters with high-capacity NVMe arrays.',
+            set: { budget: 50000, budgetTier: 'high' },
+            next: 'q_power_general'
+          }
+        ]
+      },
+
+      q_power_seed: {
+        stepLabel: 'Step 2 of 6 (Seed Path) — Power & Cooling Strategy',
+        title: 'On a $10k–$15k budget in Nigeria, how will you handle electricity & cooling?',
+        context: 'Passive server GPUs overheat in 90 seconds without high-airflow cooling and continuous power.',
+        choices: [
+          {
+            label: 'Low-wattage appliance (240W) + small solar/inverter & existing office AC',
+            tag: '240W Draw',
+            tagClass: 'tag-green',
+            desc: 'Routes to NVIDIA DGX Spark (128GB unified memory, whisper-quiet integrated cooling).',
+            set: { power: 'small_solar' },
+            next: 'q_workload_seed'
+          },
+          {
+            label: 'Our university/lab ALREADY has 24/7 solar/Band-A power & air-conditioned server room',
+            tag: 'Existing AC & Power',
+            tagClass: 'tag-blue',
+            desc: 'We only include a 3kVA Online Double-Conversion UPS ($950), freeing budget for 2x RTX A6000 GPUs.',
+            set: { power: 'existing_solar' },
+            next: 'q_workload_seed'
+          },
+          {
+            label: 'We DO NOT want to manage electricity, cooling, or physical hardware',
+            tag: 'Zero Maintenance',
+            tagClass: 'tag-red',
+            desc: 'Routes to Cloud GPU Credits vs. Lagos Tier-III Colocation options.',
+            set: { power: 'no_power' },
+            next: 'q_cloud_vs_colo'
+          }
+        ]
+      },
+
+      q_workload_seed: {
+        stepLabel: 'Step 3 of 6 (Seed Path) — Research Workload',
+        title: 'What will African researchers primarily run on this $10k–$15k node?',
+        context: 'Select the primary research domain to optimize memory capacity vs. discrete GPU speed.',
+        choices: [
+          {
+            label: 'Large Language Models (7B–70B Fine-Tuning, African NLP, Speech)',
+            tag: '128GB–256GB Unified',
+            tagClass: 'tag-green',
+            desc: 'Maximizes unified memory so 70B models fit without out-of-memory errors.',
+            set: { workload: 'llm' },
+            next: 'q_storage_redundancy'
+          },
+          {
+            label: 'Computer Vision, Medical Imaging, AgriTech & Moderate Deep Learning',
+            tag: '2x RTX A6000 (96GB)',
+            tagClass: 'tag-blue',
+            desc: 'Prioritizes discrete GDDR6 bandwidth across two separate 48GB GPUs.',
+            set: { workload: 'cv_bio' },
+            next: 'q_storage_redundancy'
+          }
+        ]
+      },
+
+      q_power_general: {
+        stepLabel: 'Step 2 of 6 — Power Redundancy & Precision Cooling in Nigeria',
+        title: 'How should we engineer power redundancy & server room cooling at your site?',
+        context: 'A 2x–4x GPU server draws 950W–1,800W plus ~850W for a dedicated 1.5HP Inverter Split AC to prevent GPU thermal throttling in Nigerian ambient heat.',
+        choices: [
+          {
+            label: 'Full Turnkey: Dedicated 8kVA Solar + 15kWh LiFePO4 + 3kVA Online UPS + 1.5HP Inverter AC',
+            tag: '100% Self-Reliant ($6,600)',
+            tagClass: 'tag-green',
+            desc: 'Includes both solar/lithium power autonomy, 0ms online UPS, dust-filtered rack, and dedicated inverter AC cooling.',
+            set: { power: 'build_solar' },
+            next: 'q_workload_main'
+          },
+          {
+            label: 'Campus Has Solar/Power: Include 3kVA Online Sinewave UPS + Dedicated 1.5HP Inverter AC',
+            tag: 'UPS + Cooling ($2,100)',
+            tagClass: 'tag-blue',
+            desc: 'Protects the server PSUs during generator/grid changeovers and guarantees dedicated 22°C room cooling.',
+            set: { power: 'existing_solar' },
+            next: 'q_workload_main'
+          },
+          {
+            label: 'Lagos Tier-III Colocation Datacenter (Rack Centre / Equinix Handles Power & Cooling)',
+            tag: '99.99% SLA',
+            tagClass: 'tag-amber',
+            desc: 'You own the server & RAID storage shipped from the UK; the Lagos datacenter provides N+1 UPS, chillers & fiber.',
+            set: { power: 'colocation' },
+            next: 'q_workload_main'
+          },
+          {
+            label: 'No Hardware / Power Management — Evaluate Cloud Credits or Desktop Appliances',
+            tag: 'Cloud / Appliance Path',
+            tagClass: 'tag-red',
+            desc: 'Takes you to the Cloud vs. Plug-and-Play Appliance evaluation.',
+            set: { power: 'no_power' },
+            next: 'q_cloud_vs_colo'
+          }
+        ]
+      },
+
+      q_cloud_vs_colo: {
+        stepLabel: 'Step 3 (Zero-Power-Management Path) — Ownership vs. Pure Cloud',
+        title: 'Since you do not want to manage campus electricity or cooling, which fits best?',
+        context: 'Compare pure cloud vouchers against hands-off colocation in Lagos or desktop appliances:',
+        choices: [
+          {
+            label: 'Pure Cloud GPU Credits (RunPod / Lambda with Auto-Stop Quotas)',
+            tag: 'Zero Hardware Shipping',
+            tagClass: 'tag-amber',
+            desc: '100% of budget buys cloud GPU hours dispensed via vouchers to researchers.',
+            set: { workload: 'cloud_only', storageTier: 'raid1_basic', customs: 'none', sysadmin: 'none' },
+            next: 'RESULT'
+          },
+          {
+            label: 'Ship Server to a Lagos Tier-III Colocation Datacenter (Hands-Off Power & Cooling)',
+            tag: 'Keep Asset in Nigeria',
+            tagClass: 'tag-green',
+            desc: 'Researchers keep the hardware for 5+ years while a Lagos datacenter manages power and precision AC.',
+            set: { power: 'colocation' },
+            next: 'q_workload_main'
+          },
+          {
+            label: 'Deploy Plug-and-Play NVIDIA DGX Spark Mini-Stations (240W Whisper-Quiet Desktop)',
+            tag: 'Runs Like a Desktop',
+            tagClass: 'tag-blue',
+            desc: 'Built-in quiet cooling; plugs into a standard wall outlet + portable power station.',
+            set: { power: 'small_solar', workload: 'llm_spark' },
+            next: 'q_storage_redundancy'
+          }
+        ]
+      },
+
+      q_workload_main: {
+        stepLabel: 'Step 3 of 6 — Research Workload & Multi-Researcher Sharing',
+        title: 'How will African researchers use these GPUs day-to-day?',
+        context: 'Matches your workload to NVIDIA MIG slicing (A100/H100), unified memory (DGX Spark), or multi-card VRAM (A6000).',
+        choices: [
+          {
+            label: 'Many Simultaneous Researchers (10–14+ Users) + LLM Fine-Tuning',
+            tag: 'A100 80GB (MIG)',
+            tagClass: 'tag-green',
+            desc: 'Hardware-splits each 80GB A100 into up to 7 isolated free GPUs for students.',
+            set: { workload: 'mig_llm' },
+            next: 'q_storage_redundancy'
+          },
+          {
+            label: 'Maximum Total VRAM for Computer Vision, BioAI & Multi-GPU Jobs',
+            tag: '4x RTX A6000 (192GB)',
+            tagClass: 'tag-blue',
+            desc: 'Provides 4 physical 48GB GPUs so 4 research teams each get a dedicated card.',
+            set: { workload: 'cv_multi' },
+            next: 'q_storage_redundancy'
+          },
+          {
+            label: 'Low-Power 70B+ Model Prototyping & Edge AI Labs',
+            tag: '2x–3x DGX Spark',
+            tagClass: 'tag-purple',
+            desc: '128GB unified memory per mini-station with ultra-low power draw.',
+            set: { workload: 'llm_spark' },
+            next: 'q_storage_redundancy'
+          },
+          {
+            label: 'Flagship FP8 Foundation Model Pre-Training (Hopper Architecture)',
+            tag: 'H800 / H100 80GB',
+            tagClass: 'tag-amber',
+            desc: 'Prioritizes Hopper FP8 Transformer Engine throughput.',
+            set: { workload: 'hopper_pretrain' },
+            next: 'q_storage_redundancy'
+          }
+        ]
+      },
+
+      // NEW STEP: Redundant Storage Architecture Question
+      q_storage_redundancy: {
+        stepLabel: 'Step 4 of 6 — Redundant Storage Architecture (RAID / ZFS)',
+        title: 'What level of storage capacity & disk-failure redundancy do your researchers need?',
+        context: 'Because replacing failed drives in Nigeria takes time and cloud egress is expensive, local redundant storage protects student checkpoints and shared African datasets.',
+        choices: [
+          {
+            label: '3-Tier Enterprise Redundancy: RAID-1 OS + 8TB NVMe RAID-10 Scratch + 16TB ZFS RAID-Z2 Vault',
+            tag: 'Recommended ($1,550)',
+            tagClass: 'tag-green',
+            desc: '2x 960GB boot mirror + 4x 3.84TB Gen4 NVMe RAID-10 (fast training) + 4x 8TB SAS ZFS RAID-Z2 (survives any 2 disk failures).',
+            set: { storageTier: 'zfs_full' },
+            next: 'q_customs_logistics'
+          },
+          {
+            label: 'Essential NVMe Mirror: RAID-1 OS + 2x 3.84TB U.2 NVMe RAID-1 (~4TB Usable)',
+            tag: 'Budget Saver ($650)',
+            tagClass: 'tag-blue',
+            desc: 'Full mirror redundancy for active checkpoints and OS on smaller budgets or DGX Spark clusters.',
+            set: { storageTier: 'raid1_basic' },
+            next: 'q_customs_logistics'
+          },
+          {
+            label: 'Heavy Dataset Repository: 8x 3.84TB NVMe RAID-10 (15TB) + 6x 12TB ZFS RAID-Z2 (48TB)',
+            tag: 'Massive Corpus ($2,850)',
+            tagClass: 'tag-purple',
+            desc: 'Designed for hosting massive multilingual speech, satellite, and medical imaging corpora locally in Nigeria.',
+            set: { storageTier: 'ceph_ha' },
+            next: 'q_customs_logistics'
+          }
+        ]
+      },
+
+      q_customs_logistics: {
+        stepLabel: 'Step 5 of 6 — UK Export VAT & Nigerian Customs Clearance',
+        title: 'How will you purchase in the UK and clear customs in Nigeria?',
+        context: 'Direct export + university waiver can save $3,000–$7,000 in taxes and duties.',
+        choices: [
+          {
+            label: 'Direct UK Export (0% UK VAT) + Nigerian University Duty Waiver (~5%)',
+            tag: 'Lowest Landed Cost',
+            tagClass: 'tag-green',
+            desc: 'UK vendor ships directly to Lagos forwarder (0% VAT) + cleared via university waiver.',
+            set: { customs: 'optimal_waiver' },
+            next: 'q_sysadmin'
+          },
+          {
+            label: 'Direct UK Export (0% UK VAT) + Standard Nigerian ICT Customs (~14.5%)',
+            tag: 'Standard Commercial',
+            tagClass: 'tag-blue',
+            desc: 'Zero-rated UK export, cleared under HS Code 8471 (5% ICT duty + 7.5% NG VAT).',
+            set: { customs: 'standard_ict' },
+            next: 'q_sysadmin'
+          },
+          {
+            label: 'Bought Locally in UK (+20% UK VAT) & Shipped via Consolidated Cargo (~10%)',
+            tag: 'Retail Pickup',
+            tagClass: 'tag-amber',
+            desc: 'Purchased domestically in the UK without VAT zero-rating, then air-freighted.',
+            set: { customs: 'retail_uk_vat' },
+            next: 'q_sysadmin'
+          }
+        ]
+      },
+
+      q_sysadmin: {
+        stepLabel: 'Step 6 of 6 — Local Linux, ZFS Snapshots & Cluster Queue Management',
+        title: 'Who will manage the Linux server, ZFS storage snapshots, and researcher queues?',
+        context: 'Ensures fair, automated remote access via JupyterHub / Slurm across universities.',
+        choices: [
+          {
+            label: 'University Graduate Fellows / Faculty SysAdmin (Slurm + JupyterHub + ZFS Auto-Snap)',
+            tag: 'Low OpEx ($1,200/yr)',
+            tagClass: 'tag-green',
+            desc: 'Trains MSc/PhD fellows to maintain Ubuntu, Slurm quotas, ZFS health alerts, and Tailscale SSH.',
+            set: { sysadmin: 'fellows' },
+            next: 'RESULT'
+          },
+          {
+            label: 'Dedicated Part-Time DevOps / MLOps Engineer (Kubernetes + SkyPilot)',
+            tag: 'Managed SLA ($3,600/yr)',
+            tagClass: 'tag-blue',
+            desc: 'Dedicated engineer managing container queues, automated backups, and researcher dashboards.',
+            set: { sysadmin: 'devops' },
+            next: 'RESULT'
+          }
+        ]
+      }
+    };
+
+    let expertHistory = [];
+    let expertAnswers = {
+      budget: 30000,
+      budgetTier: 'target30k',
+      power: 'build_solar',
+      workload: 'mig_llm',
+      storageTier: 'zfs_full',
+      customs: 'optimal_waiver',
+      sysadmin: 'fellows'
+    };
+
+    function fmt(n) {
+      return '$' + Math.round(n).toLocaleString('en-US');
+    }
+
+    function toggleDrawer(drawerId, btnEl) {
+      const panel = document.getElementById(drawerId);
+      if (!panel) return;
+      const isOpen = panel.classList.toggle('open');
+      if (isOpen) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll('.view-page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startExpertSystem() {
+      expertHistory = [];
+      expertAnswers = {
+        budget: 30000,
+        budgetTier: 'target30k',
+        power: 'build_solar',
+        workload: 'mig_llm',
+        storageTier: 'zfs_full',
+        customs: 'optimal_waiver',
+        sysadmin: 'fellows'
+      };
+      renderExpertNode('q_budget');
+      showPage('page-expert-node');
+    }
+
+    function renderExpertNode(nodeId) {
+      const node = EXPERT_NODES[nodeId];
+      if (!node) return;
+
+      const bc = document.getElementById('expertBreadcrumbs');
+      bc.innerHTML = `<span class="crumb" onclick="showPage('page-30k')">🏠 $30k Baseline</span>`;
+      expertHistory.forEach((item, idx) => {
+        bc.innerHTML += `<span>➔</span> <span class="crumb" onclick="jumpToHistory(${idx})">${item.shortChoice}</span>`;
+      });
+
+      document.getElementById('qStepBadge').textContent = node.stepLabel;
+      document.getElementById('qTitle').textContent = node.title;
+      document.getElementById('qContext').textContent = node.context;
+
+      const choicesEl = document.getElementById('qChoices');
+      choicesEl.innerHTML = '';
+
+      node.choices.forEach(ch => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.onclick = () => handleChoice(nodeId, ch);
+        btn.innerHTML = `
+          <div class="choice-main">
+            <div class="choice-heading">
+              <span>${ch.label}</span>
+              <span class="tag ${ch.tagClass}">${ch.tag}</span>
+            </div>
+            <div class="choice-desc">${ch.desc}</div>
+          </div>
+          <div class="choice-arrow">➔</div>
+        `;
+        choicesEl.appendChild(btn);
+      });
+
+      const backBtn = document.getElementById('expertBackBtn');
+      backBtn.style.visibility = expertHistory.length > 0 ? 'visible' : 'hidden';
+    }
+
+    function handleChoice(nodeId, choice) {
+      expertHistory.push({
+        nodeId,
+        shortChoice: choice.label.split('(')[0].trim().slice(0, 24) + '...',
+        prevAnswers: { ...expertAnswers }
+      });
+
+      Object.assign(expertAnswers, choice.set);
+
+      if (choice.next === 'RESULT') {
+        finalizeExpertRecommendation();
+      } else {
+        renderExpertNode(choice.next);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function expertGoBack() {
+      if (expertHistory.length === 0) {
+        showPage('page-30k');
+        return;
+      }
+      const last = expertHistory.pop();
+      expertAnswers = { ...last.prevAnswers };
+      renderExpertNode(last.nodeId);
+      showPage('page-expert-node');
+    }
+
+    function jumpToHistory(index) {
+      const target = expertHistory[index];
+      expertHistory = expertHistory.slice(0, index);
+      expertAnswers = { ...target.prevAnswers };
+      renderExpertNode(target.nodeId);
+      showPage('page-expert-node');
+    }
+
+    // =========================================================================
+    // 3. EXPERT INFERENCE ENGINE & FULL SUBSYSTEM TCO CALCULATOR
+    //    Includes: Host Server + GPUs + Redundant Storage + Cooling + Power + Freight
+    // =========================================================================
+    function calculateTcoFor(gpuId, count, cond, storageKey, answers) {
+      const gpu = GPUS[gpuId];
+      const storage = STORAGE_TIERS[storageKey] || STORAGE_TIERS.zfs_full;
+      const unitPrice = cond === 'refurb' ? gpu.ukRefurb : gpu.ukNew;
+      const gpuSubtotal = unitPrice * count;
+
+      // Host Server Chassis (includes Dual EPYC, ECC RAM, N+1 Hot-Swap Fans, 1+1 Redundant PSUs)
+      let chassisCost = 0;
+      let baseWatts = 30;
+      let chassisKg = 2;
+      if (gpu.isAppliance) {
+        chassisCost = 250 * count; // 10GbE/200GbE switch & cabling
+        baseWatts = 0;
+        chassisKg = 1.5 * count;
+      } else {
+        if (count === 1) {
+          chassisCost = cond === 'refurb' ? 1950 : 2750;
+          baseWatts = 240;
+          chassisKg = 26;
+        } else if (count === 2) {
+          chassisCost = cond === 'refurb' ? 3100 : 4500;
+          baseWatts = 340;
+          chassisKg = 38;
+        } else {
+          chassisCost = cond === 'refurb' ? 4600 : 6600;
+          baseWatts = 420;
+          chassisKg = 46;
+        }
+      }
+
+      const storageCost = storage.cost;
+      const ukServerAndStorageSubtotal = gpuSubtotal + chassisCost + storageCost;
+      const ukVat = answers.customs === 'retail_uk_vat' ? ukServerAndStorageSubtotal * 0.20 : 0;
+
+      // Air Freight London -> Lagos + 1.8% Insurance (including storage drive weight)
+      const totalKg = chassisKg + (gpu.weightKg * count) + storage.weightKg + (gpu.isAppliance ? 3 : 14);
+      const airFreight = (totalKg * 11.5) + 320 + (ukServerAndStorageSubtotal * 0.018) + 300;
+
+      // Nigerian Customs
+      const cif = ukServerAndStorageSubtotal + airFreight;
+      let ngCustoms = 0;
+      if (answers.customs === 'optimal_waiver') {
+        ngCustoms = cif * 0.04 + 280;
+      } else if (answers.customs === 'standard_ict') {
+        ngCustoms = cif * 0.145 + 350;
+      } else if (answers.customs === 'retail_uk_vat') {
+        ngCustoms = cif * 0.10 + 250;
+      }
+
+      // Cooling & Power Redundancy CapEx in Nigeria
+      const totalItWatts = baseWatts + (gpu.watts * count) + storage.watts;
+      let coolingCapex = 0;
+      let powerCapex = 0;
+      let annualColo = 0;
+
+      if (answers.power === 'small_solar') {
+        coolingCapex = gpu.isAppliance ? 250 : 850; // Ventilation / small inverter AC
+        powerCapex = gpu.isAppliance ? (1450 + count * 500) : 3600;
+      } else if (answers.power === 'existing_solar') {
+        coolingCapex = gpu.isAppliance ? 300 : 1150; // 1.5HP Inverter Split AC + Dust Rack
+        powerCapex = gpu.isAppliance ? 550 : 950;   // 3kVA Online Double-Conversion Sinewave UPS
+      } else if (answers.power === 'build_solar') {
+        coolingCapex = gpu.isAppliance ? 450 : 1150; // 1.5HP Dual-Inverter AC + Dust-Filtered Rack
+        powerCapex = gpu.isAppliance
+          ? (1950 + count * 650)
+          : Math.round(2700 + (totalItWatts / 1000) * 2650); // 3kVA Online UPS + 8kVA Solar + 15kWh LiFePO4
+      } else if (answers.power === 'colocation') {
+        coolingCapex = 0; // Handled by Lagos Tier-III Datacenter chillers
+        powerCapex = 400; // Redundant C13/C19 PDU cords & rails
+        annualColo = gpu.isAppliance ? 1800 : 3360;
+      } else {
+        coolingCapex = 0;
+        powerCapex = 0;
+      }
+
+      const coolingAndPowerCapex = coolingCapex + powerCapex;
+      const landedDay1 = ukServerAndStorageSubtotal + ukVat + airFreight + ngCustoms + coolingAndPowerCapex;
+
+      // 3-Year OpEx (16 hrs/day utilization + cooling electrical draw)
+      const hours3Yr = 16 * 365 * 3;
+      const totalGpuHours = hours3Yr * count;
+      const coolingPueMultiplier = answers.power === 'colocation' ? 1.0 : 1.35; // Includes Split AC power draw
+      const effectiveKw = (totalItWatts * coolingPueMultiplier) / 1000;
+      const kwhFactor = answers.power === 'build_solar' ? 0.05 : (answers.power === 'colocation' ? 0 : 0.15);
+      const elec3Yr = effectiveKw * hours3Yr * kwhFactor;
+      const adminAnnual = answers.sysadmin === 'devops' ? 3600 : 1200;
+      const netAnnual = answers.power === 'colocation' ? 0 : 1200;
+      const opex3Yr = elec3Yr + (adminAnnual + netAnnual + annualColo) * 3;
+
+      const tco3Yr = landedDay1 + opex3Yr;
+      const cloud3Yr = totalGpuHours * gpu.cloudHr;
+      const localPerHr = tco3Yr / totalGpuHours;
+
+      return {
+        gpu,
+        count,
+        cond,
+        storage,
+        unitPrice,
+        gpuSubtotal,
+        chassisCost,
+        storageCost,
+        coolingCapex,
+        powerCapex,
+        coolingAndPowerCapex,
+        totalKg: Math.round(totalKg),
+        airFreight: Math.round(airFreight),
+        ngCustoms: Math.round(ngCustoms),
+        totalVram: gpu.vram * count,
+        ukHardware: gpuSubtotal + chassisCost + ukVat,
+        shipAndCustoms: airFreight + ngCustoms,
+        landedDay1,
+        tco3Yr,
+        cloud3Yr,
+        localPerHr,
+        totalGpuHours,
+        totalItWatts
+      };
+    }
+
+    function finalizeExpertRecommendation() {
+      let recGpu = 'a100';
+      let recCount = 2;
+      let recCond = 'refurb';
+      let recStorage = expertAnswers.storageTier || 'zfs_full';
+      let headline = '';
+      let explanation = '';
+
+      if (expertAnswers.workload === 'cloud_only') {
+        recGpu = 'a100';
+        recCount = 2;
+        headline = '☁️ Expert Verdict: Managed Cloud GPU Credits Pool (With Auto-Stop Quotas)';
+        explanation = 'Since local electricity, cooling, and hardware administration are unavailable, use your grant to purchase pooled Cloud GPU credits (RunPod / Lambda) with strict per-researcher container timeouts — or colocate inside Rack Centre Lagos.';
+      } else if (expertAnswers.budgetTier === 'seed') {
+        recStorage = 'raid1_basic';
+        if (expertAnswers.workload === 'llm' || expertAnswers.power === 'small_solar') {
+          recGpu = 'dgx_spark';
+          recCount = 2;
+          recCond = 'new';
+          headline = '🏆 Expert Verdict ($10k–$15k Path): 2x NVIDIA DGX Spark (256GB) + RAID-1 NVMe Mirror + Compact Solar';
+          explanation = 'Two DGX Spark units deliver 256GB unified memory with built-in quiet cooling at only 480W total draw, paired with a mirrored RAID-1 NVMe array and compact LiFePO4 solar backup.';
+        } else {
+          recGpu = 'a6000';
+          recCount = 2;
+          recCond = 'refurb';
+          headline = '🏆 Expert Verdict ($10k–$15k Path): 2x RTX A6000 (96GB) Server + RAID-1 Storage + Online UPS';
+          explanation = 'With existing campus power, a UK-refurbished 2x RTX A6000 server with mirrored RAID-1 storage and a 3kVA Online Sinewave UPS delivers 96GB ECC VRAM inside your seed budget.';
+        }
+      } else if (expertAnswers.budgetTier === 'mid') {
+        if (expertAnswers.workload === 'llm_spark') {
+          recGpu = 'dgx_spark';
+          recCount = 3;
+          recCond = 'new';
+          headline = '🏆 Expert Verdict ($20k Path): 3x NVIDIA DGX Spark (384GB) + Redundant ZFS Storage + Solar';
+          explanation = 'Three clustered DGX Spark mini-stations provide 384GB unified memory under 750W total draw with redundant ZFS network storage and minimal cooling/solar CapEx.';
+        } else if (expertAnswers.workload === 'cv_multi') {
+          recGpu = 'a6000';
+          recCount = 2;
+          recCond = 'refurb';
+          headline = '🏆 Expert Verdict ($20k Path): 2x RTX A6000 (96GB) Server + 3-Tier ZFS RAID + Inverter AC + Solar';
+          explanation = 'Provides a full 4U server, 3-tier redundant RAID-10/ZFS storage, 1.5HP Inverter AC cooling, and hybrid solar backup right around ~$21,000 landed in Nigeria.';
+        } else {
+          recGpu = 'a100';
+          recCount = 1;
+          recCond = 'refurb';
+          headline = '🏆 Expert Verdict ($20k Path): 1x A100 80GB Server + 3-Tier ZFS RAID + Cooling & Solar (Dual-Slot Ready)';
+          explanation = 'Starts with 1x A100 80GB PCIe (7 free MIG slices) inside a dual-socket 4U server with full redundant RAID-10/ZFS storage, precision AC cooling, and solar backup so you can drop in a 2nd A100 later.';
+        }
+      } else if (expertAnswers.budgetTier === 'target30k') {
+        if (expertAnswers.workload === 'cv_multi') {
+          recGpu = 'a6000';
+          recCount = 4;
+          recCond = 'refurb';
+          headline = '🏆 Expert Verdict ($30k Path): 4x RTX A6000 (192GB) Server + 3-Tier ZFS RAID + Inverter AC + 8kVA Solar';
+          explanation = 'Four 48GB RTX A6000 GPUs in a 4U UK-refurbished server with 1+1 redundant PSUs, 3-tier RAID-10/ZFS storage, 1.5HP Inverter AC, and 8kVA Solar/LiFePO4 lands well under $30,000.';
+        } else if (expertAnswers.workload === 'hopper_pretrain') {
+          recGpu = 'h800';
+          recCount = 1;
+          recCond = 'refurb';
+          headline = '🏆 Expert Verdict ($30k Hopper Path): 1x NVIDIA H800 80GB Server + Redundant RAID + Cooling & UPS';
+          explanation = 'Delivers Hopper FP8 Transformer Engine speed within ~$28k–$30k once the 4U server, redundant RAID storage, UK-to-Nigeria air freight, and cooling/power protection are included.';
+        } else {
+          recGpu = 'a100';
+          recCount = 2;
+          recCond = 'refurb';
+          headline = '🏆 Expert Verdict ($30k Sweet Spot): 2x A100 80GB Server + 3-Tier ZFS RAID + Precision AC + 8kVA Solar';
+          explanation = 'Complete turnkey build ($27,440 landed): 160GB HBM2e memory (14 free MIG slices), RAID-1 OS + RAID-10 NVMe scratch + ZFS RAID-Z2 dataset vault, 1.5HP Inverter AC, 3kVA Online UPS, and 8kVA Solar/15kWh LiFePO4.';
+        }
+      } else {
+        if (expertAnswers.workload === 'hopper_pretrain') {
+          recGpu = 'h100';
+          recCount = 2;
+          recCond = 'refurb';
+          headline = '🚀 Expert Verdict (Consortium Flagship): 2x NVIDIA H100 80GB Server + High-Capacity NVMe RAID + Solar';
+          explanation = 'Dual H100 80GB GPUs with 1+1 3200W Titanium PSUs, enterprise NVMe RAID-10 + ZFS storage, precision split AC cooling, and heavy solar/lithium backup.';
+        } else {
+          recGpu = 'a100';
+          recCount = 4;
+          recCond = 'refurb';
+          headline = '🚀 Expert Verdict (High-Capacity Cluster): 4x NVIDIA A100 80GB (320GB HBM2e) + Full ZFS RAID + Solar';
+          explanation = 'Four A100 80GB GPUs (up to 28 concurrent free MIG instances) with full redundant NVMe/ZFS storage, precision cooling, and solar microgrid.';
+        }
+      }
+
+      document.getElementById('customBudget').value = expertAnswers.budget;
+      document.getElementById('customGpu').value = recGpu;
+      document.getElementById('customCount').value = recCount;
+      document.getElementById('customStorage').value = recStorage;
+      document.getElementById('customCond').value = recCond;
+
+      const rbc = document.getElementById('resultBreadcrumbs');
+      rbc.innerHTML = `<span class="crumb" onclick="showPage('page-30k')">🏠 $30k Baseline</span>`;
+      expertHistory.forEach((item, idx) => {
+        rbc.innerHTML += `<span>➔</span> <span class="crumb" onclick="jumpToHistory(${idx})">${item.shortChoice}</span>`;
+      });
+
+      window.currentExpertHeadline = headline;
+      window.currentExpertExplanation = explanation;
+
+      updateCustomResult();
+      showPage('page-expert-result');
+    }
+
+    // =========================================================================
+    // 4. DYNAMIC EMAIL GENERATOR (INCLUDES SERVER, RAID STORAGE, COOLING & PSUs)
+    // =========================================================================
+    function generateEmailTemplates(calc, budget) {
+      const condText = calc.cond === 'refurb' ? 'Certified Refurbished (Enterprise Tested with Warranty)' : 'Brand New Retail / OEM';
+      const gbpRate = 0.78;
+      const ukSubtotalUsd = calc.gpuSubtotal + calc.chassisCost + calc.storageCost;
+      const ukSubtotalGbp = Math.round(ukSubtotalUsd * gbpRate);
+      const freightGbp = Math.round((calc.airFreight - 300) * gbpRate);
+
+      document.getElementById('emailActiveConfigLabel').textContent =
+        `${calc.count}x ${calc.gpu.name} + ${calc.storage.id.toUpperCase()} Redundant Storage`;
+
+      const inquiryText = `Subject: RFQ: Turnkey Export Quote — ${calc.count}x ${calc.gpu.name} Server + Redundant RAID Storage (UK Direct Export to Lagos, Nigeria — 0% VAT)
+
+Dear Enterprise Sales & International Export Team,
+
+We are procuring a complete turnkey GPU server for the AfriUP Open Compute Initiative, which provides free shared GPU access to academic researchers across African universities.
+
+Please provide an official Proforma Invoice / quotation for the complete server build below, including redundant storage, high-static-pressure cooling fans, redundant PSUs, and insured air freight from the UK to Lagos, Nigeria (LOS):
+
+1. COMPLETE SERVER, COOLING & POWER SUPPLY CONFIGURATION:
+   - GPU Accelerator(s): ${calc.count}x ${calc.gpu.name} (${calc.totalVram}GB Total VRAM) — ${condText}
+   - Host Server & Cooling: ${calc.gpu.chassisDesc}
+   - Thermal Requirement: High-static-pressure N+1 hot-swap fan wall configured for continuous 35°C+ ambient tropical operation
+   - Power Supplies: 1+1 Redundant Hot-Swap 220V-240V Titanium/Platinum PSUs (with C13/C19 cords for Online UPS connection)
+
+2. REDUNDANT STORAGE ARCHITECTURE (PRE-INSTALLED & TESTED):
+   - Selected Tier: ${calc.storage.name}
+   - Hardware RAID / HBA Controller: Enterprise NVMe/SAS HBA (IT Mode for ZFS or Hardware RAID with CacheVault/BBU flash backup)
+   - Estimated UK Hardware + Storage Target: ~${fmt(ukSubtotalUsd)} USD (~£${ukSubtotalGbp.toLocaleString()} GBP ex-VAT)
+
+3. UK EXPORT VAT ZERO-RATING (0% VAT) & AIR FREIGHT TO NIGERIA:
+   - Please confirm 0% UK Export VAT upon direct consignment to Lagos (LOS) or our nominated UK-to-Nigeria IATA air freight forwarder near Heathrow (Cargo.ng / Tobems Global).
+   - Please quote:
+     (Option A) Direct Insured Door-to-Airport Air Freight (CIP Lagos LOS) including ISPM-15 shock pallet crating (~${calc.totalKg} kg).
+     (Option B) FCA delivery to our Heathrow export consolidator with UK Export Accompanying Document (EAD) proof.
+
+4. NIGERIAN UNIVERSITY CUSTOMS WAIVER DOCUMENTATION:
+   - Commercial Invoice & Packing List under HS Code 8471.50 showing serial numbers, plus 24-hour DCGM GPU & SMART disk burn-in reports.
+
+We have grant funding approved (Total Turnkey Cap: ${fmt(budget)} USD) and are ready to proceed upon reviewing your Proforma Invoice.
+
+Best regards,
+[Your Name / Principal Investigator]
+AfriUP African Research Compute Initiative
+[University / Institution Name & Phone]`;
+
+      const salesReplyText = `Subject: RE: Quotation #UK-NG-4092 — Turnkey ${calc.count}x ${calc.gpu.name} Server + Redundant RAID Array + Air Freight to Lagos (0% UK VAT)
+
+Dear [Your Name / AfriUP Procurement Team],
+
+Thank you for contacting our Enterprise Export Desk regarding the AfriUP African Research Compute project. We have configured the complete server with full disk redundancy, high-static-pressure tropical cooling fans, and 1+1 redundant power supplies.
+
+Because we consign directly via insured air freight to Lagos (LOS) or your Heathrow export forwarder, this invoice is Zero-Rated at 0% UK VAT.
+
+--- OFFICIAL PROFORMA QUOTATION SUMMARY (USD & GBP EQUIVALENT) ---
+
+Item 1: ${calc.count}x ${calc.gpu.name} (${condText})
+        - 24-hour NVIDIA DCGM stress test & ECC memory verification included
+        - Price: ${fmt(calc.unitPrice)} x ${calc.count} = ${fmt(calc.gpuSubtotal)} USD (£${Math.round(calc.gpuSubtotal * gbpRate).toLocaleString()} GBP)
+
+Item 2: Host Server, High-Airflow Cooling Fans & 1+1 Redundant PSUs
+        - ${calc.gpu.chassisDesc}
+        - Configured with Tropical High-Static-Pressure Fan Profile + Rack Rail Kit
+        - Price: ${fmt(calc.chassisCost)} USD (£${Math.round(calc.chassisCost * gbpRate).toLocaleString()} GBP)
+
+Item 3: Redundant Enterprise Storage Subsystem
+        - ${calc.storage.name}
+        - Pre-burned-in with SMART verification & HBA/RAID controller installed
+        - Price: ${fmt(calc.storageCost)} USD (£${Math.round(calc.storageCost * gbpRate).toLocaleString()} GBP)
+
+Item 4: Export Shock-Pallet Crating & Insured Air Freight (UK ➔ Lagos LOS)
+        - ISPM-15 shock crate (~${calc.totalKg} kg) + 1.8% All-Risk Transit Insurance
+        - Price: ${fmt(calc.airFreight - 300)} USD (£${freightGbp.toLocaleString()} GBP)
+
+------------------------------------------------------------------
+UK Server + GPUs + Redundant Storage: ${fmt(ukSubtotalUsd)} USD
+UK Export VAT (0% Zero-Rated):        $0.00 USD
+Insured Air Freight (UK to LOS):      ${fmt(calc.airFreight - 300)} USD
+------------------------------------------------------------------
+TOTAL CIF LAGOS AIRPORT INVOICE:      ${fmt(ukSubtotalUsd + calc.airFreight - 300)} USD
+(Est. Nigerian Customs + Local Delivery: ~${fmt(calc.ngCustoms + 300)} USD)
+(Est. Local Nigeria Cooling AC + Solar/UPS CapEx: ~${fmt(calc.coolingAndPowerCapex)} USD)
+
+WARRANTY & LEAD TIME:
+- 1-Year International Advanced Component Replacement Warranty (covers GPUs, motherboards, PSUs, and enterprise SSDs/HDDs).
+- Dispatch within 5 business days after SWIFT wire confirmation.
+
+Kind regards,
+Enterprise Export & AI Solutions Desk
+[UK Server Provider — Manchester / London, UK]`;
+
+      document.getElementById('draftInquiryEmail').value = inquiryText;
+      document.getElementById('sampleSalesReplyEmail').value = salesReplyText;
+    }
+
+    function copyEmail(textareaId, btnEl) {
+      const el = document.getElementById(textareaId);
+      el.select();
+      navigator.clipboard.writeText(el.value);
+      const orig = btnEl.innerHTML;
+      btnEl.innerHTML = '✅ Copied!';
+      setTimeout(() => { btnEl.innerHTML = orig; }, 2000);
+    }
+
+    function updateCustomResult() {
+      const budget = parseFloat(document.getElementById('customBudget').value);
+      const gpuId = document.getElementById('customGpu').value;
+      const count = parseInt(document.getElementById('customCount').value, 10);
+      const storageKey = document.getElementById('customStorage').value;
+      const cond = document.getElementById('customCond').value;
+
+      document.getElementById('lblCustomBudget').textContent = fmt(budget);
+
+      const activeCalc = calculateTcoFor(gpuId, count, cond, storageKey, expertAnswers);
+      const savings = activeCalc.cloud3Yr - activeCalc.tco3Yr;
+      const fits = activeCalc.landedDay1 <= budget;
+
+      const banner = document.getElementById('expertResultBanner');
+      banner.innerHTML = `
+        <span class="tag ${fits ? 'tag-green' : 'tag-red'}">
+          ${fits ? '✅ COMPLETE TURNKEY BUILD FITS YOUR ' + fmt(budget) + ' BUDGET' : '⚠️ TURNKEY BUILD EXCEEDS ' + fmt(budget) + ' BUDGET BY ' + fmt(activeCalc.landedDay1 - budget)}
+        </span>
+        <h2 style="font-size:1.42rem; margin-top:8px;">${window.currentExpertHeadline || 'Tailored Turnkey Expert Configuration'}</h2>
+        <p style="color:var(--muted); margin-top:4px; font-size:0.92rem;">${window.currentExpertExplanation || ''}</p>
+
+        <div class="reasoning-trace">
+          <strong>Complete Subsystem Cost Summary (Server + Redundant Storage + Cooling + Power + Shipping):</strong>
+          <ul>
+            <li><strong>UK Host Server &amp; GPUs (1+1 Redundant PSUs &amp; N+1 Fans):</strong> ${fmt(activeCalc.ukHardware)} (${activeCalc.count}x ${activeCalc.gpu.name}, ${activeCalc.totalVram}GB VRAM)</li>
+            <li><strong>Redundant Storage Array:</strong> ${fmt(activeCalc.storageCost)} — <em>${activeCalc.storage.name}</em></li>
+            <li><strong>UK ➔ Nigeria Air Freight &amp; Customs:</strong> ${fmt(activeCalc.shipAndCustoms)} (${activeCalc.totalKg}kg insured air cargo)</li>
+            <li><strong>Cooling (${fmt(activeCalc.coolingCapex)}) + Solar/Online UPS Power (${fmt(activeCalc.powerCapex)}):</strong> ${fmt(activeCalc.coolingAndPowerCapex)} (${activeCalc.totalItWatts}W IT load)</li>
+            <li><strong>Total Day-1 Turnkey Landed Cost:</strong> <strong style="color:var(--accent);">${fmt(activeCalc.landedDay1)}</strong> | <strong>Effective Rate:</strong> <strong style="color:var(--accent);">$${activeCalc.localPerHr.toFixed(2)}/GPU-hr</strong> (saves <strong>${fmt(savings)}</strong> vs. cloud over 3 yrs)</li>
+          </ul>
+        </div>
+      `;
+
+      const candidates = [
+        { gpuId: 'dgx_spark', count: 2 },
+        { gpuId: 'a6000', count: 2 },
+        { gpuId: 'a6000', count: 4 },
+        { gpuId: 'a100', count: 2 },
+        { gpuId: 'h800', count: 1 },
+        { gpuId: 'h100', count: 1 }
+      ];
+
+      if (!candidates.some(c => c.gpuId === gpuId && c.count === count)) {
+        candidates.unshift({ gpuId, count });
+      }
+
+      const tbody = document.querySelector('#expertMatrixTable tbody');
+      tbody.innerHTML = '';
+
+      candidates.forEach(c => {
+        const row = calculateTcoFor(c.gpuId, c.count, cond, storageKey, expertAnswers);
+        const isSelected = c.gpuId === gpuId && c.count === count;
+        const rowFits = row.landedDay1 <= budget;
+
+        const tr = document.createElement('tr');
+        if (isSelected) tr.className = 'best-row';
+
+        tr.innerHTML = `
+          <td><strong>${row.count}x ${row.gpu.name}</strong> ${isSelected ? '<span class="tag tag-blue">Selected</span>' : ''}</td>
+          <td>${row.totalVram} GB</td>
+          <td>${fmt(row.ukHardware)}</td>
+          <td>${fmt(row.storageCost)}</td>
+          <td>${fmt(row.shipAndCustoms)}</td>
+          <td>${fmt(row.coolingAndPowerCapex)}</td>
+          <td><strong>${fmt(row.landedDay1)}</strong></td>
+          <td>${fmt(row.cloud3Yr)}</td>
+          <td style="color:var(--accent); font-weight:700;">$${row.localPerHr.toFixed(2)}/hr</td>
+          <td>${rowFits ? '<span class="tag tag-green">Within Budget</span>' : '<span class="tag tag-red">Over by ' + fmt(row.landedDay1 - budget) + '</span>'}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      generateEmailTemplates(activeCalc, budget);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateCustomResult();
+    });
+  </script>
+</body>
+</html>
